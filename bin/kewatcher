@@ -80,7 +80,7 @@ rescue Object => e
   exit 1
 end
 
-options[:config] ||= 'localhost:6379'
+options[:config] ||= ENV["REDIS_URL"] || 'localhost:6379'
 
 kewatcher = Resque::Plugins::ResqueSliders::KEWatcher.new(options)
 kewatcher.run!
