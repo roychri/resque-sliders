@@ -14,6 +14,7 @@
   <h2><%= "#{host} (Total: <span id=\"total\"></span> Max: <span id=\"max\">#{max}</span>)" %>
     <span class="controls">
     <%= daemon_buttons(host, false) %>
+     <a href="" data-host="<%=host%>" class="remove-host">X</a>
     </span>
   </h2>
   <% @sliders.queue_values(host).each_pair do |queue,value| %>
@@ -48,6 +49,7 @@
         <ul>
           <span class="controls">
           <%= daemon_buttons(host) %>
+          <a href="#" data-host="<%=host%>" class="remove-host">X</a>
           </span>
         </ul>
       </td>
@@ -90,6 +92,8 @@
       </td>
       <td>
         <a href="" class="pid-hup" data-host="<%= host %>" data-pid="<%= pid %>">KILL</a>
+        <a href="" class="worker-unregister" data-host="<%= host %>" data-pid="<%= pid %>">Unregister</a>
+
       </td>
     </tr>
     <% end %>
@@ -100,7 +104,7 @@
     <% end %>
   </table>
 <script>
-  
+
   $(".pid-hup").click(function(e) {
         e.preventDefault();
         host = $(this).attr("data-host");
@@ -114,4 +118,34 @@
           }
         });
   });
+
+  $(".worker-unregister").click(function(e) {
+      e.preventDefault();
+      host = $(this).attr("data-host");
+      pid = $(this).attr("data-pid");
+      $.ajax({
+        type : "GET",
+        url : '<%= ENV['RESQUE_ROOT'] || "" %>unregister/' + host + '/' + pid,
+        success: function(obj){
+          console.log(obj)
+          alert("Unregistering")
+        }
+      });
+  });
+
+$(".remove-host").click(function(e) {
+    e.preventDefault();
+    host = $(this).attr("data-host");
+    pid = $(this).attr("data-pid");
+    $.ajax({
+      type : "GET",
+      url : '<%= ENV['RESQUE_ROOT'] || "" %>sliders/' + host + '/delete',
+      success: function(obj){
+        console.log(obj)
+        alert("Deleting...")
+      }
+    });
+});
+
+
 </script>

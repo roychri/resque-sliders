@@ -29,12 +29,28 @@ module Resque
             {:status => "ok"}.to_json
           end
 
+          app.get '/unregister/:host/:pid' do
+            Resque.workers.each do |w|
+              host, pid, queues = w.to_s.split(':')
+              if (params[:host] == host && params[:pid] == pid)
+                w.unregister_worker
+              end
+            end
+            {:status => "ok"}.to_json
+          end
 
+          app.get '/sliders/:host/delete' do
+            @sliders = Commander.new
+            @sliders.remove_host(params[:host])
+            {:status => "ok"}.to_json
+          end
 
           app.get '/sliders/:host' do
             @sliders = Commander.new
             slider_view :index
           end
+
+
 
           app.post '/sliders/:host' do
             signals = params.reject { |x,y| x unless %w(pause stop play reload).include? x.to_s and y }

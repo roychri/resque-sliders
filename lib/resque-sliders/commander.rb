@@ -27,6 +27,9 @@ module Resque
         def all_hosts
           (hosts + stale_hosts).sort
         end
+        def remove_host(host)
+          Resque.redis.del("#{key_prefix}:#{host}")
+        end
 
         # Remove all keys for a host (clean)
         def remove_all_host_keys(hostname)
