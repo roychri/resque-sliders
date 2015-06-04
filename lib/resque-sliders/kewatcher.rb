@@ -240,19 +240,14 @@ module Resque
           # figures what is running and does a diff
           # returns an Array of 2 Arrays: to_start, to_kill
 
-          puts "Queue Diff"
-          puts "My hostname = #{@hostname_full}"
           to_terminate_forced = Array(Resque.redis.smembers(:terminate))
-          puts to_terminate_forced.inspect
 
           to_terminate_forced.each do |t|
              host, pid, queues = t.to_s.split(':')
-             puts (host.downcase == @hostname_full).to_s
              if (host.downcase == @hostname_full)
                 Resque.workers.each do |w|
                   whost, wpid, wqueues = w.to_s.split(':')
                   if (host.downcase == whost.downcase && pid == wpid)
-                    puts "Removing... #{w}"
                     w.unregister_worker # remove the worker from resque when we remove it from living
                   end
                 end
