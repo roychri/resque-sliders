@@ -111,7 +111,7 @@
         pid = $(this).attr("data-pid");
         $.ajax({
           type : "GET",
-          url : '<%= ENV['RESQUE_ROOT'] || "" %>proccess_hup/' + host + '/' + pid,
+          url : '<%= url_path('proccess_hup/') %>' + host + '/' + pid,
           success: function(obj){
             console.log(obj)
             alert("Killing")
@@ -125,7 +125,7 @@
       pid = $(this).attr("data-pid");
       $.ajax({
         type : "GET",
-        url : '<%= ENV['RESQUE_ROOT'] || "" %>unregister/' + host + '/' + pid,
+        url : '<%= url_path('unregister/') %>' + host + '/' + pid,
         success: function(obj){
           console.log(obj)
           alert("Unregistering")
@@ -139,7 +139,7 @@ $(".remove-host").click(function(e) {
     pid = $(this).attr("data-pid");
     $.ajax({
       type : "GET",
-      url : '<%= ENV['RESQUE_ROOT'] || "" %>sliders/' + host + '/delete',
+      url : '<%= url_path('sliders/') %>' + host + '/delete',
       success: function(obj){
         console.log(obj)
         alert("Deleting...")
