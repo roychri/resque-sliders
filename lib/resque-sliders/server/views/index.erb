@@ -71,6 +71,7 @@
       <th>Actions</th>
     </tr>
     <% @workers.each do |worker| %>
+    <% next if (params[:host] && host != params[:host]) || (@sliders.all_hosts.length == 1 && host != @sliders.all_hosts.first) %>
     <tr class="<% worker.state %>">
       <td class="icon"></td>
 
