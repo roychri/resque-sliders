@@ -247,11 +247,11 @@ module Resque
 
           to_terminate_forced.each do |t|
              host, pid, queues = t.to_s.split(':')
-             puts (host == @hostname_full).to_s
-             if (host == @hostname_full)
+             puts (host.downcase == @hostname_full).to_s
+             if (host.downcase == @hostname_full)
                 Resque.workers.each do |w|
                   whost, wpid, wqueues = w.to_s.split(':')
-                  if (host == whost && pid == wpid)
+                  if (host.downcase == whost.downcase && pid == wpid)
                     puts "Removing... #{w}"
                     w.unregister_worker # remove the worker from resque when we remove it from living
                   end
