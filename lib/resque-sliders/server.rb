@@ -72,7 +72,9 @@ module Resque
 
           # we need the ability to remove old hosts
           app.delete '/sliders/:host' do
-            Commander.new.remove_all_host_keys(params[:host])
+            commander = Commander.new
+            commander.remove_all_host_keys(params[:host])
+            commander.remove_host(params[:host])
           end
 
           app.helpers do
