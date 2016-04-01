@@ -130,6 +130,7 @@
         success: function(obj){
           console.log(obj)
           alert("Unregistering")
+          window.location.reload(true);
         }
       });
   });
@@ -144,6 +145,7 @@ $(".remove-host").click(function(e) {
       success: function(obj){
         console.log(obj)
         alert("Deleting...")
+        window.location.reload(true);
       }
     });
 });

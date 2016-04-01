@@ -41,7 +41,7 @@ module Resque
 
           app.get '/sliders/:host/delete' do
             @sliders = Commander.new
-            @sliders.remove_host(params[:host])
+            @sliders.remove_all_host_keys(params[:host])
             {:status => "ok"}.to_json
           end
 
