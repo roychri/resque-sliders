@@ -40,10 +40,14 @@ at_exit do
     exit_code = Test::Unit::AutoRunner.run
   end
 
-  pid = `ps -A -o pid,command | grep [r]edis-test`.split(" ")[0]
+  pid = `ps -A -o pid,command | grep [r]edis-server.*9736`.split(" ")[0]
   puts "Killing test redis server..."
   `rm -f #{dir}/dump.rdb`
-  Process.kill("KILL", pid.to_i)
+  begin
+    Process.kill("KILL", pid.to_i)
+  rescue Errno::EPERM => e
+    puts "Cannot kill process #{pid.to_i} : No permission"
+  end
   exit exit_code
 end
 

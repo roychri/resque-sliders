@@ -1,0 +1,11 @@
+#!/bin/bash
+
+cat > ./redis-server<<END
+#!/bin/bash
+docker run --rm -v $(pwd)/test:/data/test -v $(pwd)/test/redis-test.conf:/usr/local/etc/redis/redis.conf --name myredis -p 9736:9736 -d redis redis-server /usr/local/etc/redis/redis.conf --daemonize no
+END
+chmod +x ./redis-server
+
+PATH=$PATH:. rake
+docker stop myredis
+rm ./redis-server
