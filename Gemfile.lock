@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    resque-sliders (0.2.3.c3)
+    resque-sliders (0.2.3.c5)
       resque (>= 1.15.0, < 2.0)
 
 GEM
@@ -42,3 +42,6 @@ DEPENDENCIES
   resque (>= 1.15.0, < 2.0)
   resque-sliders!
   shotgun
+
+BUNDLED WITH
+   1.11.2
